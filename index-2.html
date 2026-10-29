@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kamei Productions</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f4f4f6;--card:#fff;--tx:#141418;--mu:#6b6b76;--bd:#dcdce2;--ac:#e50914}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0b0f;--card:#17171d;--tx:#f2f2f5;--mu:#9a9aa6;--bd:#2a2a33}}
+:root[data-theme="dark"]{--bg:#0b0b0f;--card:#17171d;--tx:#f2f2f5;--mu:#9a9aa6;--bd:#2a2a33}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+header{display:flex;align-items:center;gap:8px;padding:14px 16px;flex-wrap:wrap}
+.logoimg{height:36px;max-width:180px;object-fit:contain;display:block}
+.logo{font-weight:800;font-size:20px;color:var(--ac);letter-spacing:.5px;margin-right:auto}
+button{font:inherit;cursor:pointer;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:8px;padding:8px 12px}
+button.p{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}
+.hero{margin:0 16px;border-radius:14px;padding:40px 20px;min-height:230px;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;color:#fff}
+.hero{text-shadow:0 1px 8px rgba(0,0,0,.8)}.hero h1{margin:0;font-size:30px}.hero p{margin:0;max-width:520px;opacity:.9}
+.row{padding:18px 0 0}.row h2{font-size:17px;margin:0 16px 10px}
+.strip{display:flex;gap:12px;overflow-x:auto;padding:0 16px 6px}
+.card{flex:0 0 140px;position:relative}
+.poster{text-shadow:0 1px 6px rgba(0,0,0,.8);height:200px;border-radius:10px;padding:12px;display:flex;align-items:flex-end;color:#fff;font-weight:700;font-size:15px;cursor:pointer}
+.card small{display:block;color:var(--mu);margin-top:6px}
+.del{position:absolute;top:6px;right:6px;padding:2px 8px;border-radius:50%}
+.login{max-width:360px;margin:12vh auto;padding:0 20px;text-align:center}
+.login h1{color:var(--ac);font-size:34px;margin:0 0 6px}.login p{color:var(--mu)}
+.login input{width:100%;margin:6px 0}
+input,select,textarea{font:inherit;width:100%;padding:10px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);margin:4px 0 10px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:16px;z-index:20}
+.box{background:var(--card);border-radius:14px;padding:18px;width:100%;max-width:480px;max-height:90vh;overflow:auto}
+.box h3{margin:0 0 10px}.acts{display:flex;gap:8px;justify-content:flex-end}
+.vid{aspect-ratio:16/9;width:100%;border:0;border-radius:10px;background:#000}
+.ph{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;border-radius:10px;color:#fff;text-align:center;padding:12px}
+.li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--bd)}
+h4{margin:16px 0 6px}label{font-size:13px;color:var(--mu)}
+.note{color:var(--mu);font-size:12px;text-align:center;padding:20px 16px}
+</style></head>
+<body><div id="app"></div>
+<script>
+var KEY="kamei-demo-v2";
+var T={
+fr:{login:"Connecte-toi pour accéder aux films.",email:"Email",pw:"Mot de passe",signin:"Se connecter",adm:"Entrer en admin (démo)",admin:"Admin",demo:"Mot de passe par défaut : kamei2026 (change-le dans Paramètres).",bad:"Mot de passe incorrect.",npw:"Nouveau mot de passe admin",chg:"Changer",chgok:"Mot de passe modifié.",sec:"Sécurité",cats:"Catégories",ncat:"Nouvelle catégorie",ren:"Renommer",out:"Quitter",play:"▶ Lecture",set:"⚙️ Paramètres",add:"Ajouter un film",sty:"Style du site",man:"Gérer les films",sn:"Nom du site",lg:"Logo : lien image ou logo.png (vide = texte)",mc:"Couleur principale",fo:"Police",f1:"Moderne",f2:"Cinéma",f3:"Mono",ti:"Titre",de:"Description",ca:"Catégorie (ex. Fiction)",yt:"Lien YouTube (non répertorié)",po:"Affiche : lien image ou posters/nom.jpg",ok:"Ajouter",cancel:"Annuler",apply:"Appliquer",close:"Fermer",conf:"Supprimer ce film ?",nov:"Aucune vidéo liée pour ce film fictif.",foot:"Maquette de démonstration. Les films ajoutés sont pour l’instant enregistrés dans ce navigateur uniquement.",lang:"Langue",del:"Supprimer",films:"Films"},
+nl:{login:"Log in om de films te bekijken.",email:"E-mail",pw:"Wachtwoord",signin:"Inloggen",adm:"Als admin binnengaan (demo)",admin:"Admin",demo:"Standaardwachtwoord: kamei2026 (wijzig het in Instellingen).",bad:"Verkeerd wachtwoord.",npw:"Nieuw adminwachtwoord",chg:"Wijzigen",chgok:"Wachtwoord gewijzigd.",sec:"Beveiliging",cats:"Categorieën",ncat:"Nieuwe categorie",ren:"Hernoemen",out:"Afsluiten",play:"▶ Afspelen",set:"⚙️ Instellingen",add:"Film toevoegen",sty:"Stijl van de site",man:"Films beheren",sn:"Naam van de site",lg:"Logo: afbeeldingslink of logo.png (leeg = tekst)",mc:"Hoofdkleur",fo:"Lettertype",f1:"Modern",f2:"Cinema",f3:"Mono",ti:"Titel",de:"Beschrijving",ca:"Categorie (bv. Fictie)",yt:"YouTube-link (niet vermeld)",po:"Poster: afbeeldingslink of posters/naam.jpg",ok:"Toevoegen",cancel:"Annuleren",apply:"Toepassen",close:"Sluiten",conf:"Deze film verwijderen?",nov:"Geen video gekoppeld aan deze fictieve film.",foot:"Demonstratiemodel. Toegevoegde films worden voorlopig enkel in deze browser bewaard.",lang:"Taal",del:"Verwijderen",films:"Films"},
+en:{login:"Log in to watch the films.",email:"Email",pw:"Password",signin:"Log in",adm:"Enter as admin (demo)",admin:"Admin",demo:"Default password: kamei2026 (change it in Settings).",bad:"Wrong password.",npw:"New admin password",chg:"Change",chgok:"Password changed.",sec:"Security",cats:"Categories",ncat:"New category",ren:"Rename",out:"Log out",play:"▶ Play",set:"⚙️ Settings",add:"Add a film",sty:"Site style",man:"Manage films",sn:"Site name",lg:"Logo: image link or logo.png (empty = text)",mc:"Main color",fo:"Font",f1:"Modern",f2:"Cinema",f3:"Mono",ti:"Title",de:"Description",ca:"Category (e.g. Fiction)",yt:"YouTube link (unlisted)",po:"Poster: image link or posters/name.jpg",ok:"Add",cancel:"Cancel",apply:"Apply",close:"Close",conf:"Delete this film?",nov:"No video linked to this fictional film.",foot:"Demo mockup. Added films are stored in this browser only for now.",lang:"Language",del:"Delete",films:"Films"}};
+var DEF={name:"KAMEI PRODUCTIONS",ac:"#e50914",logo:"",cats:[],font:"system-ui,-apple-system,Segoe UI,sans-serif",role:"user",lang:(navigator.language||"fr").slice(0,2),films:[
+{t:"Dernier Tram",d:"Une nuit à Bruxelles, un dernier tram, trois inconnus.",c:"Courts-métrages",y:""},
+{t:"Les Heures Bleues",d:"Un photographe poursuit la lumière avant le lever du jour.",c:"Courts-métrages",y:""},
+{t:"Néon Midi",d:"Un thriller urbain tourné entièrement de nuit.",c:"Fiction",y:""},
+{t:"Carnet de Laeken",d:"Portrait d’un quartier raconté par ses habitants.",c:"Documentaires",y:""},
+{t:"Sous les Projecteurs",d:"Dans les coulisses d’un concert, de la mise en place au rappel.",c:"Documentaires",y:""},
+{t:"Plan B",d:"Une équipe de tournage, un imprévu, une seule prise.",c:"Fiction",y:""}]};
+var PWH="ba421f61291fce7c3ff01b36473413c30018e87389603a5dd831a5de6e58ed8b";
+var S=JSON.parse(JSON.stringify(DEF));
+if(!T[S.lang])S.lang="fr";
+try{var raw=localStorage.getItem(KEY);if(raw){var o=JSON.parse(raw);S.name=o.name||S.name;S.ac=o.ac||S.ac;S.font=o.font||S.font;S.logo=o.logo||"";S.cats=o.cats||[];S.films=o.films||S.films;if(T[o.lang])S.lang=o.lang;if(o.pwh)PWH=o.pwh}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({name:S.name,ac:S.ac,logo:S.logo,cats:S.cats,font:S.font,films:S.films,lang:S.lang,pwh:PWH}))}catch(e){}}
+function sha(x){return crypto.subtle.digest("SHA-256",new TextEncoder().encode(x)).then(function(b){return Array.from(new Uint8Array(b)).map(function(v){return v.toString(16).padStart(2,"0")}).join("")})}
+function t(k){return T[S.lang][k]||T.fr[k]||k}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function hue(s){var h=0;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%360;return h}
+function grad(s){var h=hue(s);return"linear-gradient(145deg,hsl("+h+",60%,38%),hsl("+(h+45)+",70%,14%))"}
+function bg(x){return x.p?"url(\""+esc(x.p)+"\") center/cover no-repeat, "+grad(x.t):grad(x.t)}
+function ytid(u){var m=String(u).match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);return m?m[1]:""}
+function logoHtml(){return S.logo?'<img class="logoimg" src="'+esc(S.logo)+'" alt="'+esc(S.name)+'">':esc(S.name)}
+function setFav(){var l=document.getElementById("fav")||document.createElement("link");l.id="fav";l.rel="icon";l.href=S.logo||"";if(!l.parentNode)document.head.appendChild(l)}
+function allCats(){var c=S.cats.slice();S.films.forEach(function(x){if(c.indexOf(x.c)<0)c.push(x.c)});return c}
+function langBtn(){return'<button data-a="lang">🌐 '+S.lang.toUpperCase()+'</button>'}
+function render(){
+ document.documentElement.style.setProperty("--ac",S.ac);document.documentElement.lang=S.lang;document.body.style.fontFamily=S.font;setFav();
+ var a=document.getElementById("app");
+ var adm=S.role==="admin",f=S.films[0],cats=allCats().filter(function(c){return S.films.some(function(x){return x.c===c})});
+ var h='<header><span class="logo">'+logoHtml()+'</span>'+(adm?'<button class="p" data-a="set">'+t("set")+'</button><button data-a="out">'+t("out")+'</button>':'<button data-a="adm">'+t("admin")+'</button>')+langBtn()+'</header>';
+ if(f)h+='<div class="hero" style="background:'+bg(f)+'"><h1>'+esc(f.t)+'</h1><p>'+esc(f.d)+'</p><div><button class="p" data-a="play" data-i="0">'+t("play")+'</button></div></div>';
+ cats.forEach(function(c){h+='<div class="row"><h2>'+esc(c)+'</h2><div class="strip">';
+  S.films.forEach(function(x,i){if(x.c!==c)return;
+   h+='<div class="card"><div class="poster'+(x.p?" hasimg":"")+'" style="background:'+bg(x)+'" data-a="play" data-i="'+i+'">'+esc(x.t)+'</div></div>'});
+  h+='</div></div>'});
+ h+='<p class="note">'+t("foot")+'</p>';
+ a.innerHTML=h}
+function modal(html){close();var m=document.createElement("div");m.className="modal";m.id="m";m.innerHTML='<div class="box">'+html+'</div>';document.body.appendChild(m)}
+function close(){var m=document.getElementById("m");if(m)m.remove()}
+function settings(){
+ var o=[["system-ui,-apple-system,Segoe UI,sans-serif","f1"],["Georgia,serif","f2"],["ui-monospace,Menlo,monospace","f3"]].map(function(x){return'<option value="'+x[0]+'"'+(x[0]===S.font?" selected":"")+'>'+t(x[1])+'</option>'}).join("");
+ var l=S.films.map(function(x,i){return'<div class="li"><span>'+esc(x.t)+'</span><button data-a="del" data-i="'+i+'">'+t("del")+'</button></div>'}).join("");
+ modal('<h3>'+t("set")+'</h3><h4>'+t("add")+'</h4><input id="ft" placeholder="'+t("ti")+'"><textarea id="fd" rows="2" placeholder="'+t("de")+'"></textarea><input id="fc" list="cl" placeholder="'+t("ca")+'"><datalist id="cl">'+allCats().map(function(c){return'<option value="'+esc(c)+'">'}).join("")+'</datalist><input id="fy" placeholder="'+t("yt")+'"><input id="fp" placeholder="'+t("po")+'"><button class="p" data-a="saveF">'+t("ok")+'</button><h4>'+t("sty")+'</h4><label>'+t("sn")+'</label><input id="sn" value="'+esc(S.name)+'"><label>'+t("lg")+'</label><input id="sl" value="'+esc(S.logo)+'"><label>'+t("mc")+'</label><input id="sc" type="color" value="'+S.ac+'" style="height:44px"><label>'+t("fo")+'</label><select id="sf">'+o+'</select><button class="p" data-a="saveS">'+t("apply")+'</button><h4>'+t("cats")+'</h4>'+allCats().map(function(c,i){return'<div class="li"><input class="ci" data-c="'+esc(c)+'" value="'+esc(c)+'" style="margin:0"><button data-a="ren" data-c="'+esc(c)+'">'+t("ren")+'</button></div>'}).join("")+'<input id="nc" placeholder="'+t("ncat")+'"><button class="p" data-a="addC">'+t("ok")+'</button><h4>'+t("sec")+'</h4><input id="npw" type="password" placeholder="'+t("npw")+'"><button class="p" data-a="savePw">'+t("chg")+'</button><h4>'+t("man")+'</h4>'+l+'<div class="acts" style="margin-top:14px"><button data-a="close">'+t("close")+'</button></div>')}
+document.addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id==="ap"){var b=document.querySelector('[data-a="in"]');if(b)b.click()}});
+document.addEventListener("click",function(e){
+ var el=e.target.closest("[data-a]");
+ if(!el){if(e.target.id==="m")close();return}
+ var a=el.dataset.a,i=+el.dataset.i;
+ if(a==="adm"){modal('<h3>'+t("admin")+'</h3><input id="ap" type="password" placeholder="'+t("pw")+'"><p style="font-size:12px;color:var(--mu)">'+(PWH==="ba421f61291fce7c3ff01b36473413c30018e87389603a5dd831a5de6e58ed8b"?t("demo"):"")+'</p><div class="acts"><button data-a="close">'+t("cancel")+'</button><button class="p" data-a="in">'+t("signin")+'</button></div>')}
+ else if(a==="in"){var v=document.getElementById("ap").value;sha(v).then(function(hh){if(hh===PWH){S.role="admin";close();render()}else alert(t("bad"))})}
+ else if(a==="addC"){var nc=document.getElementById("nc").value.trim();if(!nc||allCats().indexOf(nc)>=0)return;S.cats=allCats();S.cats.push(nc);save();settings()}
+ else if(a==="ren"){var oc=el.dataset.c,inp=document.querySelector('input.ci[data-c="'+oc.replace(/"/g,'\\"')+'"]'),nn=inp?inp.value.trim():"";if(!nn||nn===oc)return;S.cats=allCats().map(function(c){return c===oc?nn:c});S.films.forEach(function(x){if(x.c===oc)x.c=nn});save();render();settings()}
+ else if(a==="savePw"){var nv=document.getElementById("npw").value;if(nv.length<4)return;sha(nv).then(function(hh){PWH=hh;save();alert(t("chgok"))})}
+ else if(a==="out"){S.role="user";render()}
+ else if(a==="close")close();
+ else if(a==="lang"){modal('<h3>🌐 '+t("lang")+'</h3>'+[["fr","Français"],["nl","Nederlands"],["en","English"]].map(function(x){return'<button class="'+(S.lang===x[0]?"p":"")+'" style="width:100%;margin:4px 0" data-a="setL" data-l="'+x[0]+'">'+x[1]+'</button>'}).join(""))}
+ else if(a==="setL"){S.lang=el.dataset.l;save();close();render()}
+ else if(a==="play"){var x=S.films[i],id=ytid(x.y);
+  modal('<h3>'+esc(x.t)+'</h3>'+(id?'<iframe class="vid" src="https://www.youtube-nocookie.com/embed/'+id+'" allowfullscreen></iframe>':'<div class="ph" style="background:'+grad(x.t)+'">'+t("nov")+'</div>')+'<p>'+esc(x.d)+'</p><div class="acts"><button data-a="close">'+t("close")+'</button></div>')}
+ else if(a==="set")settings();
+ else if(a==="del"){if(confirm(t("conf"))){S.films.splice(i,1);save();render();settings()}}
+ else if(a==="saveF"){var ti=document.getElementById("ft").value.trim();if(!ti)return;
+  S.films.push({t:ti,d:document.getElementById("fd").value.trim(),c:document.getElementById("fc").value.trim()||t("films"),y:document.getElementById("fy").value.trim(),p:document.getElementById("fp").value.trim()});save();render();settings()}
+ else if(a==="saveS"){S.name=document.getElementById("sn").value.trim()||S.name;S.logo=document.getElementById("sl").value.trim();S.ac=document.getElementById("sc").value;S.font=document.getElementById("sf").value;save();close();render()}
+});
+render();
+</script></body></html>
